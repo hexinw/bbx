@@ -1,0 +1,21 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific aliases and functions
+alias gvi='vim -u ~/.vimrc.go -N'
+alias python="/opt/cross/el7.3-x86_64/sysroot/usr/bin/python"
+export TOP=/home/hexinw/workspace/main
+export DISTCC_HOSTS="--randomize distcc-0/24 distcc-1/24"
+#export DISTCC_HOSTS="distcc-0 distcc-1 distcc-2 distcc-3 distcc-4 distcc-5 distcc-6 distcc-7 distcc-8 distcc-9"
+export CCACHE_DIR=$HOME/.ccache
+
+PATH=$HOME/bin:/opt/rh/git19/root/usr/bin/:$PATH
+export PATH
+
+export PYTHONPATH=$PYTHONPATH:$TOP/.python:$TOP/qa/agave/bin
+export PYTHONUSERBASE=$TOP/.python
+export EDITOR=vim

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+[ -r /etc/sysconfig/i18n ] && . /etc/sysconfig/i18n
+export LANG
+export SYSFONT
+xsetroot -solid grey
+vncconfig -iconic &
+[ -r $HOME/.Xresources ] && xrdb -merge $HOME/.Xresources
+blackbox &
+xterm -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &

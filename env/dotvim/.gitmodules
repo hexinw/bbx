@@ -1,0 +1,60 @@
+[submodule "bundle/lua-support"]
+	path = bundle/lua-support
+	url = https://github.com/vim-scripts/lua-support.git
+[submodule "bundle/lua_omni"]
+	path = bundle/lua_omni
+	url = https://github.com/vim-scripts/lua_omni.git
+[submodule "bundle/Pydiction"]
+	path = bundle/Pydiction
+	url = https://github.com/vim-scripts/Pydiction
+[submodule "bundle/NERDTree"]
+	path = bundle/NERDTree
+	url = https://github.com/vim-scripts/The-NERD-tree.git
+[submodule "bundle/vimwiki"]
+	path = bundle/vimwiki
+	url = https://github.com/vim-scripts/vimwiki
+[submodule "bundle/easymotion"]
+	path = bundle/easymotion
+	url = https://github.com/Lokaltog/vim-easymotion.git
+[submodule "bundle/vim-instant-markdown"]
+	path = bundle/vim-instant-markdown
+	url = https://github.com/suan/vim-instant-markdown.git
+[submodule "bundle/vim-latex"]
+	path = bundle/vim-latex
+	url = git://vim-latex.git.sourceforge.net/gitroot/vim-latex/vim-latex
+[submodule "bundle/taglist"]
+	path = bundle/taglist
+	url = https://github.com/vim-scripts/taglist.vim.git
+[submodule "bundle/ZenCoding"]
+	path = bundle/ZenCoding
+	url = https://github.com/vim-scripts/ZenCoding.vim.git
+[submodule "bundle/vim-javascript"]
+	path = bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript.git
+[submodule "bundle/FuzzyFinder"]
+	path = bundle/FuzzyFinder
+	url = https://github.com/vim-scripts/FuzzyFinder.git
+[submodule "bundle/L9"]
+	path = bundle/L9
+	url = https://github.com/vim-scripts/L9.git
+[submodule "bundle/vim-flake8"]
+	path = bundle/vim-flake8
+	url = https://github.com/nvie/vim-flake8.git
+[submodule "bundle/markdown-syntax"]
+	path = bundle/markdown-syntax
+	url = https://github.com/vim-scripts/Markdown.git
+[submodule "bundle/jslint"]
+	path = bundle/jslint
+	url = https://github.com/hallettj/jslint.vim.git
+[submodule "bundle/luainspect"]
+	path = bundle/luainspect
+	url = https://github.com/vim-scripts/luainspect.vim.git
+[submodule "bundle/colors-solarized"]
+	path = bundle/colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized.git
+[submodule "bundle/quickfix_exit"]
+	path = bundle/quickfix_exit
+	url = https://github.com/now/vim-quit-if-only-quickfix-buffer-left.git
+[submodule "bundle/vim-powerline"]
+	path = bundle/vim-powerline
+	url = https://github.com/Lokaltog/vim-powerline.git

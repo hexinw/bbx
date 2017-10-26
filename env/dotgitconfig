@@ -1,0 +1,32 @@
+[user]
+	name = Hexin Wang
+	email = hexinw@zmkm8.com
+[push]
+	default = tracking
+[core]
+	editor = vim
+	pager = less -FRSX
+[diff]
+	renamelimit = 0 
+	guitool = meld
+[difftool]
+	prompt = false
+[merge]
+	tool = meld
+
+[url "ssh://hexin.wang@gerrit.eng.zmkm8.com:29418/neutron"]
+    pushInsteadOf = "https://gerrit.eng.zmkm8.com/neutron"
+
+[url "ssh://hexin.wang@gerrit.eng.zmkm8.com:29418/networking-ovn"]
+    pushInsteadOf = "https://gerrit.eng.zmkm8.com/networking-ovn"
+
+[url "ssh://hexin.wang@gerrit.eng.zmkm8.com:29418/networking-bgpvpn"]
+    pushInsteadOf = "https://gerrit.eng.zmkm8.com/networking-bgpvpn"
+
+[url "ssh://hexin.wang@gerrit.eng.zmkm8.com:29418/pyxmpp2"]
+    pushInsteadOf = "https://gerrit.eng.zmkm8.com/pyxmpp2"
+
+[url "ssh://hexin.wang@gerrit.eng.zmkm8.com:29418/contrail"]
+    pushInsteadOf = "https://gerrit.eng.zmkm8.com/contrail"
+[color "diff"]
+	meta = blue white bold
