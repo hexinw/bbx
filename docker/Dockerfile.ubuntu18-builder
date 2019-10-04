@@ -1,0 +1,63 @@
+# Docker file to generate a ubuntu 18.04 based image plus a varieties of
+# tools/dependencies.
+FROM ubuntu:18.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /var/tmp
+RUN \
+  apt-get update -y && \
+  apt-get install -y libgflags-dev libgtest-dev clang-5.0 libc++-dev \
+      build-essential autoconf automake libtool curl pkg-config make && \
+  apt-get install -y g++ unzip python-minimal python-pip dh-make vim \
+      wget zlib1g-dev cmake git ccache libssl-dev xmlto net-tools iproute2 && \
+  pip install pytest
+
+RUN \
+  pip install -U setuptools
+
+RUN \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc7_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc-dev_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B1_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B-dev_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf18_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc18_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-lite18_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-dev_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc-dev_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler-grpc_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB"
