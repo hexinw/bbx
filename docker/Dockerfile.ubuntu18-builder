@@ -9,10 +9,11 @@ RUN \
   apt-get update -y && \
   apt-get install -y libgflags-dev libgtest-dev clang-5.0 libc++-dev \
       build-essential autoconf automake libtool curl pkg-config make && \
-  apt-get install -y g++ unzip python-minimal python-pip dh-make vim \
+  apt-get install -y g++ unzip python-minimal python-pip dh-make dh-python vim \
       wget zlib1g-dev cmake git ccache libssl-dev xmlto net-tools iproute2 && \
   apt-get install -y libgoogle-glog-dev libgoogle-glog0v5 libgflags-dev \
-      libgflags2.2 liblzo2-2 liblzo2-dev libpam0g-dev liblz4-dev uml-utilities && \
+      libgflags2.2 liblzo2-2 liblzo2-dev libpam0g-dev liblz4-dev \
+      uml-utilities libboost-dev cython && \
   pip install pytest
 
 RUN \
