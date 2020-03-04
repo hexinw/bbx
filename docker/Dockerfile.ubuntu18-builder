@@ -13,8 +13,9 @@ RUN \
       wget zlib1g-dev cmake git ccache libssl-dev xmlto net-tools iproute2 && \
   apt-get install -y libgoogle-glog-dev libgoogle-glog0v5 libgflags-dev \
       libgflags2.2 liblzo2-2 liblzo2-dev libpam0g-dev liblz4-dev \
-      uml-utilities libboost-dev cython && \
-  pip install pytest
+      uml-utilities libboost-dev cython libjsoncpp-dev && \
+  pip install pytest grpcio-tools==1.26.0 python-dateutil==2.8.1 \
+      protobuf==3.11.2
 
 RUN \
   pip install -U setuptools
