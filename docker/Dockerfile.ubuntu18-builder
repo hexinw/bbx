@@ -11,9 +11,10 @@ RUN \
       build-essential autoconf automake libtool curl pkg-config make && \
   apt-get install -y g++ unzip python-minimal python-pip dh-make dh-python vim \
       wget zlib1g-dev cmake git ccache libssl-dev xmlto net-tools iproute2 && \
-  apt-get install -y libgoogle-glog-dev libgoogle-glog0v5 libgflags-dev \
+  apt-get install -y libgflags-dev \
       libgflags2.2 liblzo2-2 liblzo2-dev libpam0g-dev liblz4-dev \
-      uml-utilities libboost-dev cython libjsoncpp-dev && \
+      uml-utilities libboost-dev cython libjsoncpp-dev libboost-filesystem1.65-dev \
+      libboost-filesystem1.65.1 libboost-system1.65-dev libboost-system1.65.1 && \
   pip install pytest grpcio-tools==1.26.0 python-dateutil==2.8.1 \
       protobuf==3.11.2
 
@@ -21,6 +22,14 @@ RUN \
   pip install -U setuptools
 
 RUN \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog0_0.4.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog-dev_0.4.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
   wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc7_1.24.0-0_amd64.deb' && \
   dpkg -i "$TEMP_DEB" && \
@@ -67,5 +76,13 @@ RUN \
   rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
   wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libcityhash_0.0.0-1_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools0_2.7_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools-dev_2.7_amd64.deb' && \
   dpkg -i "$TEMP_DEB" && \
   rm -f "$TEMP_DEB"
