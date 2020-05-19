@@ -19,6 +19,7 @@ RUN \
       protobuf==3.11.2
 
 RUN \
+  apt-get install -y libzookeeper-mt2 libzookeeper-mt-dev && \
   pip install -U setuptools
 
 RUN \
@@ -45,6 +46,10 @@ RUN \
   TEMP_DEB="$(mktemp)" && \
   wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B-dev_1.24.0-0_amd64.deb' && \
   dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/grpcio-1.24.0.linux-x86_64.tar.gz' && \
+  tar -xzvf "$TEMP_DEB" -C / && \
   rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
   wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf18_3.8.0_amd64.deb' && \

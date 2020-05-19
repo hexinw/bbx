@@ -9,30 +9,136 @@ set -x
 
 # Python packages via pip
 PY_PACKAGES=(
-  cassandra-driver
+  gevent==1.2.2
+  grpcio-tools==1.26.0
+  python-dateutil==2.8.1
+  protobuf==3.11.2
   mock
   pytest
   python-gflags
+  python-dateutil
+  setuptools
   tenacity
+  websocket
+  websocket-client==0.53.0
+  Werkzeug
 )
 
 pip install --upgrade "${PY_PACKAGES[@]}"
 
 PACKAGES=(
-   sudo add-apt-repository ppa:jonathonf/vim
-   sudo apt update
-   sudo apt install vim
-   sudo apt-get install -y software-properties-common
-   sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-   sudo apt update
-   sudo apt install g++-7 -y
-   sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-7 60 --slave /usr/bin/g++ g++ /usr/bin/g++-7
-   gcc --version
-   g++ --version
-   ls -la /usr/bin/ | grep -oP "[\S]*(gcc|g\+\+)(-[a-z]+)*[\s]" | xargs sudo bash -c 'for link in ${@:1}; do ln -s -f "/usr/bin/${link}-${0}" "/usr/bin/${link}"; done' 7
-   sudo apt-get install libboost-all-dev
+  libgflags-dev
+  libgtest-dev
+  clang-5.0
+  libc++-dev
+  build-essential
+  autoconf
+  automake
+  libtool
+  curl
+  pkg-config
+  make
+  g++
+  unzip
+  python-minimal
+  python-pip
+  dh-make
+  dh-python
+  vim
+  wget
+  zlib1g-dev
+  cmake
+  ccache
+  git
+  libssl-dev
+  xmlto
+  net-tools
+  iproute2
+  libgflags2.2
+  liblzo2-2
+  liblzo2-dev
+  libpam0g-dev
+  liblz4-dev
+  uml-utilities
+  libboost-dev
+  cython
+  libjsoncpp-dev
+  libboost-filesystem1.65-dev
+  libboost-filesystem1.65.1
+  libboost-system1.65-dev
+  libboost-system1.65.1
 )
 
+apt-get update -y
+apt-get install -y "${PACKAGES[@]}"
 
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog0_0.4.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog-dev_0.4.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc7_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc-dev_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B1_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B-dev_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/grpcio-1.24.0.linux-x86_64.tar.gz' && \
+tar -xzvf "$TEMP_DEB" -C / && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf18_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc18_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-lite18_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-dev_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc-dev_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler-grpc_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libcityhash_0.0.0-1_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools0_2.7_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools-dev_2.7_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB"
 
 exit 
