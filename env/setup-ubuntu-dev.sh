@@ -16,7 +16,6 @@ PY_PACKAGES=(
   mock
   pytest
   python-gflags
-  python-dateutil
   setuptools
   tenacity
   websocket
