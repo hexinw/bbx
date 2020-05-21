@@ -7,11 +7,19 @@
 #
 
 set -e
-set -x
+# set -x
+
+if [ "`whoami`" != "root" ] ; then
+  echo "  Usage: sudo $0"
+  echo
+  exit -1
+fi
+
+USER=`who am i | awk '{print $1}'`
 
 # /tftpboot directory.
-sudo mkdir -p /tftpboot
-sudo chmod 777 /tftpboot
+mkdir -p /tftpboot
+chmod 777 /tftpboot
 
 # Install EPEL repo
 yum -y install epel-release
@@ -48,7 +56,7 @@ yum -y --setopt=exclude= install "${PACKAGES[@]}"
 groupadd -f docker
 systemctl restart docker
 systemctl enable docker
-usermod -aG docker $(whoami)
+usermod -aG docker ${USER}
 
 # Python packages via pip
 PY_PACKAGES=(

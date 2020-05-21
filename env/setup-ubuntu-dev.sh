@@ -5,7 +5,13 @@
 #
 
 set -e
-set -x
+#set -x
+
+if [ "`whoami`" != "root" ] ; then
+  echo "  Usage: sudo $0"
+  echo
+  exit -1
+fi
 
 # Python packages via pip
 PY_PACKAGES=(
