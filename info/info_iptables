@@ -1,0 +1,11 @@
+https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture
+
+**Chain Traversal Order:
+
+Assuming that the server knows how to route a packet and that the firewall
+rules permit its transmission, the following flows represent the paths that
+will be traversed in different situations:
+
+ -. Incoming packets destined for the local system: PREROUTING -> INPUT
+ -. Incoming packets destined to another host: PREROUTING -> FORWARD -> POSTROUTING
+ -. Locally generated packets: OUTPUT -> POSTROUTING

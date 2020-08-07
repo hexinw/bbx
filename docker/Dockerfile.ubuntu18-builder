@@ -14,9 +14,13 @@ RUN \
   apt-get install -y libgflags-dev iputils-ping libpkcs11-helper1 \
       libgflags2.2 liblzo2-2 liblzo2-dev libpam0g-dev liblz4-dev \
       uml-utilities libboost-dev cython libjsoncpp-dev libboost-filesystem1.65-dev \
-      libboost-filesystem1.65.1 libboost-system1.65-dev libboost-system1.65.1 && \
+      libboost-filesystem1.65.1 libboost-system1.65-dev libboost-system1.65.1 \
+      iptables tcpdump traceroute && \
   pip install pytest grpcio-tools==1.26.0 python-dateutil==2.8.1 \
-      protobuf==3.11.2
+      protobuf==3.11.2 dpath==1.5.0 swagger_py_codegen==0.4.0 \
+      gevent==1.2.2 python-gflags==3.1.2 werkzeug==1.0.1 websocket==0.2.1 \
+      websocket_client==0.57.0 py-dateutil==2.2 pyuwsgi==2.0.19.1 netaddr==0.8.0 \
+      flask==1.1.2 Flask-INIConfig==0.1.0
 
 RUN \
   apt-get install -y libzookeeper-mt2 libzookeeper-mt-dev && \

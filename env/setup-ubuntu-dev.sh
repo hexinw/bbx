@@ -15,6 +15,7 @@ fi
 
 # Python packages via pip
 PY_PACKAGES=(
+  dpath==1.5.0
   gevent==1.2.2
   grpcio-tools==1.26.0
   python-dateutil==2.8.1
@@ -23,6 +24,7 @@ PY_PACKAGES=(
   pytest
   python-gflags
   setuptools
+  swagger_py_codegen
   tenacity
   websocket
   websocket-client==0.53.0
