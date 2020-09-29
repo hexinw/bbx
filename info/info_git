@@ -1,0 +1,7 @@
+# Work with submodules
+## Checkout entire tree with submodules
+git clone --recurse-submodules <git_url>
+
+## When switching different branches
+git submodule update
+git clean -ffd

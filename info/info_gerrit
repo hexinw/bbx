@@ -1,0 +1,22 @@
+# Create an empty project
+ssh -p 29418 hexinw@codereview.ubyon.com gerrit create-project demo-project --empty-commit
+
+# Create an existing project
+ssh -p 29418 hexinw@codereview.ubyon.com gerrit create-project test-project
+
+git clone ssh://hexinw@codereview.ubyon.com:29418/test-project
+
+# Normal git push.
+git push origin HEAD:refs/heads/<branch>
+# Gerrit git push to a virtual namespace.
+git push origin HEAD:refs/for/<branch>
+
+
+# Change email notifications.
+mkdir cfg_dir
+git init
+git fetch  ssh://hexinw@git.ubyon.com:29418/All-Projects refs/meta/config
+git checkout FETCH_HEAD
+git config -f project.config --add notify.team.email dev@ubyon.com
+git commit -a -m "Set dev@ubyon.com notifications"
+git push ssh://hexinw@git.ubyon.com:29418/All-Projects HEAD:refs/meta/config

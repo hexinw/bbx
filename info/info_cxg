@@ -1,0 +1,7 @@
+1. Use boost intrusive list over std::list
+2. std::atomic not supporting 128 bits.
+3. STL missing spinlock implementation.
+   spinlock uses PAUSE instruction for optimal CPU sleep.
+4. Custom shared_ptr allocator to allocate/deallocate from a memory pool
+   in lock-free scheme.
+5. Compare-and-Swap used to implement a lock-free buffer.

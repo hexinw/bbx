@@ -1,0 +1,16 @@
+# Disable bell on TAB input.
+
+# Disable bell in tmux.
+# vi ~/.tmuxrc
+# disable sound bell
+set -g bell-action none
+# disable visual bell
+set -g visual-bell off
+
+# Disable bell in bash
+# sudo vi /etc/inputrc
+set bell-style none
+
+# Disable bell in vim
+# vi ~/.vimrc
+set vb t_vb=     " no visual bell & flash

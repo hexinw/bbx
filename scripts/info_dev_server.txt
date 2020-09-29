@@ -1,0 +1,95 @@
+# dev-server storage partition.
+# /var and /homes to main-pool.
+# /var/tmp to tmp-pool/var/tmp
+# /var/log to tmp-pool/var/log
+# /data to data-pool.
+
+sudo zpool create main-pool raidz1 /dev/sda5 /dev/sdb1 /dev/sdc1 /dev/sdd1 /dev/sde1
+sudo zfs create main-pool/homes
+sudo zfs create main-pool/var
+sudo zfs set mountpoint=/homes main-pool/homes
+
+sudo mv /var /var1
+sudo zfs set mountpoint=/var main-pool/var
+sudo rsync -aqxP /var1/* /var
+
+sudo zpool create tmp-pool /dev/sdb2 /dev/sdc2 /dev/sdd2 /dev/sde2
+sudo zfs create tmp-pool/var
+sudo zfs create tmp-pool/var/tmp
+sudo mv /var/tmp /var/tmp2
+sudo zfs set mountpoint=/var/tmp tmp-pool/var/tmp
+sudo chmod go+w /var/tmp
+sudo chmod o+t /var/tmp
+
+sudo zfs create tmp-pool/var/log
+sudo mv /var/log /var/log2
+sudo zfs set mountpoint=/var/log tmp-pool/var/log
+sudo chmod g+w /var/log
+sudo chown -R root:syslog /var/log
+
+sudo zpool create data-pool /dev/sdf /dev/sdg /dev/sdh /dev/sdi
+sudo zfs set mountpoint=/data data-pool
+
+
+# Install kvm.
+sudo apt-get install qemu-kvm libvirt-daemon-system libvirt-clients \
+bridge-utils virt-manager libguestfs-tools
+
+#hexinw@dev-1:~$ sudo cat /etc/sysctl.d/bridge.conf
+net.bridge.bridge-nf-call-ip6tables=0
+net.bridge.bridge-nf-call-iptables=0
+net.bridge.bridge-nf-call-arptables=0
+
+#hexinw@dev-1:~$ sudo cat /etc/udev/rules.d/99-bridge.rules
+ACTION=="add", SUBSYSTEM=="module", KERNEL=="br_netfilter", \           RUN+="/sbin/sysctl -p /etc/sysctl.d/bridge.conf"
+
+sudo virsh net-destroy default
+sudo virsh net-undefine default
+
+hexinw@dev-1:~$ cat /etc/netplan/50-cloud-init.yaml
+network:
+  version: 2
+  ethernets:
+    eno2:
+      dhcp4: no
+      dhcp6: no
+
+  bridges:
+    br0:
+      interfaces: [eno2]
+      dhcp4: yes
+      dhcp6: no
+
+# Define host bridge in kvm using br0 bridge.
+#hexinw@dev-1:~$ cat /var/tmp/host-bridge.xml
+<network>
+  <name>host-bridge</name>
+  <forward mode="bridge"/>
+  <bridge name="br0"/>
+</network>
+
+sudo virsh net-define /var/tmp/host-bridge.xml
+sudo virsh net-start host-bridge
+sudo virsh net-autostart host-bridge
+
+# Create VM.
+sudo virsh define /etc/libvirt/qemu/hexinw-dev.xml
+sudo virsh autostart hexinw-dev
+
+# Install VNC
+sudo apt install xfce4 xfce4-goodies
+sudo apt install tightvncserver
+
+# Set vncserver password
+vncserver
+
+# .vnc/xstartup
+#!/bin/sh
+unset SESSION_MANAGER
+unset DBUS_SESSION_BUS_ADDRESS
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+startxfce4 &
+
+# Install wireguard
+sudo apt install wireguard
+

@@ -1,0 +1,149 @@
+** 10 common c++ mistakes
+
+#1 Using “new” and ”delete” Pairs Incorrectly
+
+void SomeMethod()
+{
+  ClassA *a = new ClassA;
+  SomeOtherMethod();      // it can throw an exception
+  delete a;
+}
+
+** correct fix.
+void SomeMethod()
+{
+  std::auto_ptr<ClassA> a(new ClassA); // deprecated, please check the text
+  SomeOtherMethod();      // it can throw an exception
+}
+
+#2 Forgotten Virtual Destructor
+
+class MyString : public std::string
+{
+  ~MyString() {
+  // ...
+}
+};
+
+int main()
+{
+  std::string *s = new MyString();
+  delete s; // May not invoke the destructor defined in MyString
+}
+
+#3 Deleting an Array With “delete” or Using a Smart Pointer
+
+** correct fix
+Use delete[], not just delete.
+
+#4 Return a local object by reference
+
+** correct fix
+
+Return a constructor of an object. Compiler will optimize the code to avoid
+unnecessary copying - the constructor will be executed directly on the object.
+
+#5 Using a Reference to a Deleted Resource
+
+** correct fix
+
+Use a smart pointer.
+
+#6 Allow exceptions to leave destructors
+
+class A
+{
+public:
+   A(){}
+   ~A()
+   {
+      writeToLog(); // could cause an exception to be thrown
+   }
+};
+
+// …
+
+try
+{
+   A a1;		
+   A a2;		
+}
+catch (std::exception& e)
+{
+   std::cout << "exception caught";
+}
+
+** correct fix
+
+never allow exception to leave destructors.
+
+#7 Use auto_ptr incorrectly
+
+auto_ptr template is deprecated from C++11 because of a number of reasons.
+Copying of auto_ptr object will transfer an ownership from one object to
+another.
+
+auto_ptr<ClassA> a(new ClassA); // deprecated, please check the text
+auto_ptr<ClassA> b = a;
+a->SomeMethod();    // will result in access violation error
+
+
+#8 Use invalidated iterators and references
+
+vector<string> v;
+v.push_back(“string1”);
+string& s1 = v[0];     // assign a reference to the 1st element
+vector<string>::iterator iter = v.begin();    // assign an iterator to the 1st
+element
+v.push_back(“string2”);
+cout << s1;     // access to a reference of the 1st element
+cout << *iter;  // access to an iterator of the 1st element
+
+Adding the second element to the vector may result in reallocation of the
+vector's memory which will make both the iterator and the reference invalid.
+
+#9 Passing an object by value
+
+Not just performance issue, but also wrong invocation.
+
+class A
+{
+public:
+   virtual std::string GetName() const {return "A";}
+    …
+};
+
+class B: public A
+{
+public:
+   virtual std::string GetName() const {return "B";}
+   ...
+};
+
+void func1(A a)
+{
+   std::string name = a.GetName();
+   ...
+}
+
+B b;
+func1(b);
+
+#10 Use User Defined Conversions by Constructor and Conversion Operators
+
+class String
+{
+public:
+   String(int n);
+   String(const char *s);
+   ….
+}
+
+String s1 = 123;
+String s2 = ‘abc’;
+
+** correct fix
+
+There are 2 general rules of how to avoid such problems:
+  (1) Define a constructor with explicit keyword to disallow implicit conversions.
+  (2) Use explicit conversation methods.
