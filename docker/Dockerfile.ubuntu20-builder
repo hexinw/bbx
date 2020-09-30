@@ -16,7 +16,7 @@ RUN \
       uml-utilities python3-pip libboost-dev cython libjsoncpp-dev \
       libboost-filesystem1.71-dev libboost-filesystem1.71.0 libboost-system1.71-dev \
       libboost-system1.71.0 iptables tcpdump traceroute \
-      libzookeeper-mt2 libzookeeper-mt-dev libc-ares2
+      libzookeeper-mt2 libzookeeper-mt-dev
 RUN \
   pip3 install pytest==6.1.0 grpcio-tools==1.32.0 grpcio==1.32.0 python-dateutil==2.8.1 \
       protobuf==3.13.0 dpath==2.0.1 swagger_py_codegen==0.4.0 \
@@ -34,91 +34,59 @@ RUN \
   dpkg -i "$TEMP_DEB" && \
   rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc7_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc-dev_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B1_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B-dev_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf18_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc18_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-lite18_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-dev_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc-dev_3.8.0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler-grpc_1.24.0-0_amd64.deb' && \
+  dpkg -i "$TEMP_DEB" && \
+  rm -f "$TEMP_DEB" && \
+  TEMP_DEB="$(mktemp)" && \
   wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libcityhash_0.0.0-1_amd64.deb' && \
   dpkg -i "$TEMP_DEB" && \
   rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/a/abseil/libabsl20200225_0~20200225.2-3~bpo10+1_amd64.deb' && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools0_2.7_amd64.deb' && \
   dpkg -i "$TEMP_DEB" && \
   rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/libprotobuf23_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/grpc/libgrpc10_1.30.2-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/grpc/libgrpc-dev_1.30.2-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/grpc/libgrpc++1_1.30.2-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/grpc/libgrpc++-dev_1.30.2-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/libprotoc23_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/protobuf-compiler_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/libprotobuf-lite23_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/libprotobuf-dev_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/libprotoc-dev_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/grpc/protobuf-compiler-grpc_1.30.2-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/s/six/python3-six_1.15.0-1_all.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/p/protobuf/python3-protobuf_3.12.3-2_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/google-perftools/libtcmalloc-minimal4_2.7-1_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/x/xz-utils/liblzma5_5.2.4-1_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/x/xz-utils/liblzma-dev_5.2.4-1_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/libu/libunwind/libunwind8_1.2.1-10~deb10u1_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/libu/libunwind/libunwind-dev_1.2.1-10~deb10u1_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/google-perftools/libgoogle-perftools4_2.7-1_amd64.deb' && \
-  dpkg -i "$TEMP_DEB" && \
-  rm -f "$TEMP_DEB" && \
-  TEMP_DEB="$(mktemp)" && \
-  wget -O "$TEMP_DEB" 'http://ftp.us.debian.org/debian/pool/main/g/google-perftools/libgoogle-perftools-dev_2.7-1_amd64.deb' && \
+  wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools-dev_2.7_amd64.deb' && \
   dpkg -i "$TEMP_DEB" && \
   rm -f "$TEMP_DEB" && \
   TEMP_DEB="$(mktemp)" && \
