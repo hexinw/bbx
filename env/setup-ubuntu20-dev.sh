@@ -30,6 +30,12 @@ if [ ! -f "/lib/systemd/system/docker.service" ] ; then
   apt-get update -y
   apt-cache policy docker-ce
   apt-get install -y docker-ce
+
+  # Docker service needs a bridge network to run. Somehow the bridge network is
+  # missing even if you follow docker installation guide from the web. Run the
+  # commands to create a bridge and then restart docker service should work:
+  #   sudo     ip link add name docker0 type bridge
+  #   sudo     ip addr add dev docker0 172.17.0.1/16
 fi
 groupadd -f docker
 systemctl restart docker
