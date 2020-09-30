@@ -52,10 +52,6 @@ PACKAGES=(
   uml-utilities python3-pip libboost-dev cython libjsoncpp-dev
   libboost-filesystem1.71-dev libboost-filesystem1.71.0 libboost-system1.71-dev
   libboost-system1.71.0 iptables tcpdump traceroute
-  libgoogle-glog-dev libgoogle-glog0v5 libgrpc6 libgrpc-dev
-  libgrpc++1 libgrpc++-dev libprotobuf17 libprotobuf-lite17 libprotobuf-dev
-  libprotoc17 libprotoc-dev protobuf-compiler protobuf-compiler-grpc
-  google-perftools libgoogle-perftools-dev libgoogle-perftools4
   libzookeeper-mt2 libzookeeper-mt-dev
 )
 
@@ -73,8 +69,72 @@ PY_PACKAGES=(
 pip3 install "${PY_PACKAGES[@]}"
 
 TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog0_0.4.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog-dev_0.4.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc7_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc-dev_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B1_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B-dev_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf18_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc18_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-lite18_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-dev_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc-dev_3.8.0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler-grpc_1.24.0-0_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libcityhash_0.0.0-1_amd64.deb' && \
 dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools0_2.7_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools-dev_2.7_amd64.deb' && \
+dpkg -i "$TEMP_DEB" && \
+rm -f "$TEMP_DEB" && \
+TEMP_DEB="$(mktemp)" && \
+wget -O "$TEMP_DEB" 'https://golang.org/dl/go1.15.2.linux-amd64.tar.gz' && \
+tar -C /usr/local/ -xzf "$TEMP_DEB" && \
 rm -f "$TEMP_DEB"
 
 exit 
