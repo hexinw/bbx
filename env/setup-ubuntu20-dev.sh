@@ -7,6 +7,13 @@
 set -e
 set -x
 
+INSTALL_FINISHED="/tmp/.setup-ubuntu20-dev"
+
+if [ -f $INSTALL_FINISHED ] ; then
+  echo "Install has already finished."
+  exit
+fi
+
 if [ "`lsb_release -cs`" != "focal" ] ; then
   echo "  This setup script is for Ubuntu 20.04 Focal."
   echo
@@ -133,9 +140,9 @@ wget -O "$TEMP_DEB" 'https://golang.org/dl/go1.15.2.linux-amd64.tar.gz' && \
 sudo tar -C /usr/local/ -xzf "$TEMP_DEB" && \
 rm -f "$TEMP_DEB"
 
-if [ "`grep go/bin ${USER}/.profile`" == "" ] ; then
+if [ "`grep go/bin ${HOME}/.profile`" == "" ] ; then
 
-cat >> ${USER}/.profile << EOL
+cat >> ${HOME}/.profile << EOL
 
 export PATH=\$PATH:/usr/local/go/bin
 
@@ -146,7 +153,9 @@ EOL
 
 fi
 
-source ${USER}/.profile
+source ${HOME}/.profile
+
+touch $INSTALL_FINISHED
 
 echo
 echo "Installation completed successfully."
