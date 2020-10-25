@@ -1,10 +1,10 @@
 # Create an empty project
-ssh -p 29418 hexinw@codereview.ubyon.com gerrit create-project demo-project --empty-commit
+ssh -p 29418 hexinw@git.ubyon.com gerrit create-project demo-project --empty-commit
 
 # Create an existing project
-ssh -p 29418 hexinw@codereview.ubyon.com gerrit create-project test-project
+ssh -p 29418 hexinw@git.ubyon.com gerrit create-project test-project
 
-git clone ssh://hexinw@codereview.ubyon.com:29418/test-project
+git clone ssh://hexinw@git.ubyon.com:29418/test-project
 
 # Normal git push.
 git push origin HEAD:refs/heads/<branch>
@@ -20,3 +20,10 @@ git checkout FETCH_HEAD
 git config -f project.config --add notify.team.email dev@ubyon.com
 git commit -a -m "Set dev@ubyon.com notifications"
 git push ssh://hexinw@git.ubyon.com:29418/All-Projects HEAD:refs/meta/config
+
+# Set reviewer
+ssh -p 29418 ssh://git.ubyon.com gerrit set-reviewers --add xiangwen.xu@ubyon.com `git log | grep Change-Id | head -1 | tr -d ' ' | cut -d':' -f2`
+
+# Postfix update gmail password.
+sudo postmap /etc/postfix/sasl/sasl_passwd
+sudo systemctl restart postfix

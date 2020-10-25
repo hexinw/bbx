@@ -7,40 +7,34 @@
 set -e
 set -x
 
-if [ "`whoami`" != "root" ] ; then
-  echo "  Usage: sudo $0"
-  echo
-  exit -1
-fi
-
 if [ "`lsb_release -cs`" != "focal" ] ; then
   echo "  This setup script is for Ubuntu 20.04 Focal."
   echo
   exit -1
 fi
 
-USER=`who am i | awk '{print $1}'`
+USER=`whoami`
 
 # Install docker
 if [ ! -f "/lib/systemd/system/docker.service" ] ; then
-  apt-get update -y
-  apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  apt-get update -y
-  apt-cache policy docker-ce
-  apt-get install -y docker-ce
+  sudo apt-get update -y
+  sudo apt install -y apt-transport-https ca-certificates curl gnupg-agent software-properties-common
+  sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  sudo apt-get update -y
+  sudo apt-cache policy docker-ce
+  sudo apt-get install -y docker-ce
 fi
-groupadd -f docker
-systemctl restart docker
-systemctl enable docker
-usermod -aG docker ${USER}
+sudo groupadd -f docker
+sudo systemctl restart docker
+sudo systemctl enable docker
+sudo usermod -aG docker ${USER}
 
 # Install openvswitch
-apt-get -y install openvswitch-switch
+sudo apt-get -y install openvswitch-switch
 cd /usr/bin
-wget https://raw.githubusercontent.com/openvswitch/ovs/master/utilities/ovs-docker
-chmod a+rwx ovs-docker
+sudo wget https://raw.githubusercontent.com/openvswitch/ovs/master/utilities/ovs-docker
+sudo chmod a+rwx ovs-docker
 
 PACKAGES=(
   libgflags-dev libgtest-dev clang-10 libc++-dev
@@ -55,7 +49,7 @@ PACKAGES=(
   libzookeeper-mt2 libzookeeper-mt-dev
 )
 
-apt-get install -y "${PACKAGES[@]}"
+sudo apt-get install -y "${PACKAGES[@]}"
 
 # Python packages via pip3
 PY_PACKAGES=(
@@ -66,75 +60,89 @@ PY_PACKAGES=(
   flask==1.1.2 Flask-INIConfig==0.1.0 setuptools==50.3.0
 )
 
-pip3 install "${PY_PACKAGES[@]}"
+sudo pip3 install "${PY_PACKAGES[@]}"
 
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog0_0.4.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgoogle-glog-dev_0.4.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc7_1.24.0-0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc-dev_1.24.0-0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B1_1.24.0-0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgrpc%2B%2B-dev_1.24.0-0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf18_3.8.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc18_3.8.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler_3.8.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-lite18_3.8.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotobuf-dev_3.8.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libprotoc-dev_3.8.0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/protobuf-compiler-grpc_1.24.0-0_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libcityhash_0.0.0-1_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools0_2.7_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
-rm -f "$TEMP_DEB" && \
-TEMP_DEB="$(mktemp)" && \
-wget -O "$TEMP_DEB" 'https://github.com/hexinw/pkgs/raw/master/libgperftools-dev_2.7_amd64.deb' && \
-dpkg -i "$TEMP_DEB" && \
+sudo dpkg -i "$TEMP_DEB" && \
 rm -f "$TEMP_DEB" && \
 TEMP_DEB="$(mktemp)" && \
 wget -O "$TEMP_DEB" 'https://golang.org/dl/go1.15.2.linux-amd64.tar.gz' && \
-tar -C /usr/local/ -xzf "$TEMP_DEB" && \
+sudo tar -C /usr/local/ -xzf "$TEMP_DEB" && \
 rm -f "$TEMP_DEB"
+
+if [ "`grep go/bin ${USER}/.profile`" == "" ] ; then
+
+cat >> ${USER}/.profile << EOL
+
+export PATH=\$PATH:/usr/local/go/bin
+
+if [ -d "\$HOME/go/bin" ] ; then
+  PATH="\$HOME/go/bin:\$PATH"
+fi
+EOL
+
+fi
+
+source ${USER}/.profile
+
+echo
+echo "Installation completed successfully."
 
 exit 
