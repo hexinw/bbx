@@ -1,0 +1,49 @@
+# Install microk8s
+sudo snap install microk8s --classic
+
+sudo usermod -a -G microk8s $USER
+sudo chown -f -R $USER ~/.kube
+# Re-enter the session to take effect of the group update.
+su - $USER
+
+# Check the status
+microk8s.status --wait-ready
+
+sudo snap alias microk8s.kubectl kubectl
+
+# Use add-ons
+microk8s enable dns multus
+
+# Change default pod IP pool.
+microk8s.stop
+cd /var/snap/microk8s/current/var/kubernetes/backend/; rm -v !(cluster.key|cluster.crt)
+
+# Edit /var/snap/microk8s/current/args/kube-proxy and update the --cluster-cidr=10.1.0.0/16 argument.
+# Restart MicroK8s with microk8s stop; microk8s start.
+# Edit /var/snap/microk8s/current/args/cni-network/cni.yaml and replace the new
+# IP range in:
+    - name: CALICO_IPV4POOL_CIDR
+      value: "10.1.0.0/16"
+
+# Apply the above yaml:
+    kubectl apply -f /var/snap/microk8s/current/args/cni-network/cni.yaml
+
+# Add quay.io secret.
+kubectl create -f /var/tmp/ubyon-cxg-secret.yaml
+
+sudo brctl addbr cxg-inet
+sudo ip addr add 192.168.122.1/24 dev cxg-inet
+sudo ip link set cxg-inet up
+#sudo ip route add 10.1.10.7 via 192.168.122.200 dev cxg-inet
+sudo ethtool --offload cxg-inet rx off tx off
+sudo arp -i enp1s0 -Ds 10.1.10.7 enp1s0  pub
+
+sudo bash -c "cat > /etc/netplan/60-cxg-inet.yaml" << EOL
+> network:
+>   version: 2
+>   bridges:
+>     cxg-inet:
+>       addresses: [ 192.168.122.1/24 ]
+>       parameters:
+>               stp: false
+> EOL

@@ -1,0 +1,12 @@
+# Find PID of a POD
+## First find the container ID
+kubectl get pod <POD-NAME> -o jsonpath='{.status.containerStatuses[0].containerID}' | cut -c 14-27
+## Find PID from container ID
+ps -eo pid,ppid,stat,wchan:20,netns,comm,args:50,cgroup --cumulative -H | grep <containerID>
+
+# Add an extra network interface
+sudo ip link add veth0 type veth peer name veth1
+sudo ip link set veth1 netns 2366523
+sudo nsenter -t 2366523 -n ip addr add 10.1.10.7/24 dev veth1
+sudo nsenter -t 2366523 -n ip link set dev veth1 up
+

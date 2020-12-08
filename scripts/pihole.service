@@ -1,0 +1,30 @@
+[Unit]
+Description=Pihole container
+Requires=docker.service
+After=docker.service
+
+[Service]
+User=hexinw
+Group=hexinw
+ExecStart=/usr/bin/docker run \
+    --rm \
+    --name pihole \
+    --publish 53:53/tcp --publish 53:53/udp \
+    --publish 80:80 \
+    --publish 443:443 \
+    --env TZ="America/Los_Angeles" \
+    --volume /opt/pihole/etc-pihole/:/etc/pihole/ \
+    --volume /opt/pihole/etc-dnsmasq.d/:/etc/dnsmasq.d/ \
+    --dns=127.0.0.1 --dns=8.8.8.8 \
+    --hostname pi.hole \
+    --env VIRTUAL_HOST="pi.hole" \
+    --env PROXY_LOCATION="pi.hole" \
+    --env ServerIP="192.168.86.224" \
+    pihole/pihole:latest
+ExecStop=/usr/bin/docker stop pihole
+Restart=on-failure
+RestartSec=20
+
+[Install]
+WantedBy=default.target
+
