@@ -1,0 +1,6 @@
+# mysql -u [username] -p<password> somedb < somedb.sql
+mysql -psecret123 ubyon < /docker-entrypoint-initdb/00001_ubyondb_baseschema.sql
+
+#mysql -u [username] -p<password> [dbname] -e [query]
+mysql -psecret123 ubyon -e "show tables;"
+

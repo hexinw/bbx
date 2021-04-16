@@ -1,0 +1,16 @@
+FROM kong:2.4.0-ubuntu
+LABEL description="Ubuntu + Kong 2.4.0 + kong-oidc plugin"
+ENV OIDC_PLUGIN_VERSION=1.1.0-0
+ENV JWT_PLUGIN_VERSION=1.1.0-1
+
+USER root
+RUN apt-get update -y && apt-get install -y git unzip luarocks
+RUN luarocks install lua-resty-openidc 1.6.0
+RUN luarocks install kong-oidc
+RUN git clone -b 20200505-access-token-processing https://github.com/BGaunitz/kong-plugin-jwt-keycloak.git \
+ && cd kong-plugin-jwt-keycloak \
+ && luarocks make
+RUN luarocks pack kong-plugin-jwt-keycloak ${JWT_PLUGIN_VERSION} \
+ && luarocks install kong-plugin-jwt-keycloak-${JWT_PLUGIN_VERSION}.all.rock
+
+USER kong

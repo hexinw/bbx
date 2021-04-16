@@ -1,0 +1,21 @@
+Windows workspace
+ hexinw
+ Password1@3$
+
+jenkins.acme.com
+ admin
+ admin
+
+news.acme.com
+  mysql:
+   admin/admin
+
+phpMyAdmin login:
+  http://news.acme.com/phpmyadmin/
+  /etc/mysql/debian.cnf (login credential)
+
+  wordpress/Password1@3$
+
+http://news.acme.com/wp-admin/
+  wordpress
+  Password1@3$

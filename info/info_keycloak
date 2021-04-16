@@ -1,0 +1,9 @@
+# Create mysql database
+mysql> CREATE DATABASE keycloak CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+# Create a New User
+mysql> CREATE USER 'keycloak'@'%' IDENTIFIED BY 'password';
+
+# Grant user privilege to use the database.
+mysql> GRANT ALL PRIVILEGES ON keycloak.* TO 'keycloak'@'%';
+mysql> flush privileges;

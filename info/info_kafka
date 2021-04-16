@@ -1,0 +1,11 @@
+kubectl exec -it kafka-0 -- bash
+# List topics
+  unset JMX_PORT
+  bin/kafka-topics.sh --list --zookeeper zk-cs.default.svc.cluster.local:2181
+
+# Create topics
+  kubectl cp topics.txt kafka-0:/var/tmp
+  unset JMX_PORT; awk -F':' '{ system("./bin/kafka-topics.sh --create --zookeeper zk-cs.default.svc.cluster.local:2181 --topic=" $1 " --partitions=" $2 " --replication-factor=" $3) }' /var/tmp/topics.txt
+
+# List consumers
+  ./bin/kafka-consumer-groups.sh --list --bootstrap-server localhost:9092

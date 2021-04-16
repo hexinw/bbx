@@ -1,0 +1,6 @@
+FROM cassandra:4.0
+LABEL description="Cassandra + k8s readiness probe"
+
+RUN \
+  curl https://raw.githubusercontent.com/hexinw/bbx/master/docker/ready_probe.sh \
+  --output /ready_probe.sh
