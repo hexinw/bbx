@@ -3,4 +3,4 @@ LABEL description="Cassandra + k8s readiness probe"
 
 RUN \
   curl https://raw.githubusercontent.com/hexinw/bbx/master/docker/ready_probe.sh \
-  --output /ready_probe.sh
+  -o /ready_probe.sh -s && chmod +x /ready_probe.sh
