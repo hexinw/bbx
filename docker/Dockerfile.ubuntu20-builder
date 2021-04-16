@@ -16,7 +16,7 @@ RUN \
       uml-utilities python3-pip libboost-dev cython libjsoncpp-dev \
       libboost-filesystem1.71-dev libboost-filesystem1.71.0 libboost-system1.71-dev \
       libboost-system1.71.0 iptables tcpdump traceroute \
-      libzookeeper-mt2 libzookeeper-mt-dev
+      libzookeeper-mt2 libzookeeper-mt-dev gdb
 RUN \
   pip3 install pytest==6.1.0 grpcio-tools==1.32.0 grpcio==1.32.0 python-dateutil==2.8.1 \
       protobuf==3.13.0 dpath==2.0.1 swagger_py_codegen==0.4.0 \
