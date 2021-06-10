@@ -1,0 +1,54 @@
+# https://gsoc-blog.ecklm.com/iptables-redirect-vs.-dnat-vs.-tproxy/
+# https://www.kernel.org/doc/Documentation/networking/tproxy.txt
+# TPROXY illustration: X is the proxy between Y and Z.
+  Y -> X -> Z
+
+# "tcprdr -T" IP_TRANSPARENT on the outgoing socket
+  X uses the IP and TCP source parameters from Y.
+  Z receives packets with the source address of Y.
+
+# "tcprdr -t" IP_TRANSPARENT on the listening socket
+  X receives packets destined to a port that it is not listening to.
+
+# Unlike the iptables REDIRECT target, TPROXY allows preserving both the
+# source and destination IP addresses and ports of accepted connections.
+#
+
+# REDIRECT
+ns1-veth0: 10.0.200.2
+ns1-veth1: 10.0.200.1
+sudo ip netns exec ns1 curl -v 173.194.222.106:80
+
+# REDIRECT is using conntrack table. Packet destination address is modified.
+src=10.0.200.1 dst=173.194.222.106 sport=57526 dport=80 src=10.0.200.2 dst=10.0.200.1 sport=10000 dport=57526
+src=10.1.10.9 dst=173.194.222.106 sport=33232 dport=80 src=173.194.222.106 dst=10.1.10.9 sport=80 dport=33232
+
+# TPROXY
+# Identify packets with destination address matching a local socket. Set the
+# packet mark to a certain value:
+sudo iptables -t mangle -N DIVERT
+sudo iptables -t mangle -A PREROUTING -p tcp -m socket -j DIVERT
+sudo iptables -t mangle -A DIVERT -j MARK --set-mark 1
+sudo iptables -t mangle -A DIVERT -j ACCEPT
+
+# Then match on that value using policy routing to have those packets delivered
+# locally:
+ip rule add fwmark 1 lookup 100
+ip route add local 0.0.0.0/0 dev lo table 100
+
+# Use (SOL_IP, IP_TRANSPARENT) socket option to allow it to send datagrams from
+# non-local IP address.
+
+# Redirect packets using TPROXY without relying on NAT.
+sudo iptables -t mangle -A PREROUTING -p tcp --dport 80 -j TPROXY --tproxy-mark 0x1/0x1 --on-port 10000
+
+# Also need to enable (SOL_IP, IP_TRANSPARENT) for the listening socket.
+
+# Cleanup
+sudo iptables -t mangle -D PREROUTING -p tcp --dport 80 -j TPROXY --tproxy-mark 0x1/0x1 --on-port 10000
+sudo iptables -t mangle -D PREROUTING -p tcp -m socket -j DIVERT
+# Remove all rules in chain DIVERT
+sudo iptables -t mangle -F DIVERT
+# Delete empty chain DIVERT
+sudo iptables -t mangle -X DIVERT
+

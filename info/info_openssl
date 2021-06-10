@@ -5,15 +5,15 @@ openssl genrsa -out ca.key 4096
 openssl req -new -x509 -key ca.key -sha256 -subj "/C=US/ST=CA/O=Ubyon, Inc." -days 365 -out ca.cert
 
 # Create server private key
-openssl genrsa -out service.key 4096
+openssl genrsa -out server.key 2048
 
 # Create a signing CSR
-openssl req -new -key service.key -out service.csr -config certificate.conf
+openssl req -new -key server.key -out server.csr -config certificate.conf
 
 # Generate server certificate
-openssl x509 -req -in service.csr -CA ca.cert -CAkey ca.key -CAcreateserial \
--out service.pem -days 365 -sha256 -extfile certificate.conf -extensions \
+openssl x509 -req -in server.csr -CA ca.cert -CAkey ca.key -CAcreateserial \
+-out server.cert -days 365 -sha256 -extfile certificate.conf -extensions \
 req_ext
 
 # Verify
-openssl x509 -in service.pem -text -noout
+openssl x509 -in server.cert -text -noout

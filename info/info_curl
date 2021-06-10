@@ -1,0 +1,11 @@
+# To get curl to validate the cerficate, use "--cacert" option.
+# To get curl to explicit connecting to a host without name resolution, use
+# "--connect-to" option.
+curl --cacert example-com.crt --connect-to localhost -H 'Host: example.com'
+https://example.com/service/1
+
+# Curl to get the original source IP
+curl https://httpbin.org/ip
+
+# Set proxy in command line
+curl -v --proxy-cacert ~/workspace/ubos/tls/ca.cert  -x "https://localhost:443" "https://httpbin.org/ip"

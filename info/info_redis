@@ -1,0 +1,5 @@
+# Create a 6-node redis cluster
+kubectl exec -it -n redis redis-cluster-0 -- redis-cli --cluster create \
+  $(kubectl get pods -n redis -l app=redis-cluster \
+      -o jsonpath='{range.items[*]}{.status.podIP}:6379 ' | \
+      rev | cut  -c 7- | rev) --cluster-replicas 1

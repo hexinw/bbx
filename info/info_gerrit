@@ -6,6 +6,9 @@ ssh -p 29418 hexinw@git.ubyon.com gerrit create-project test-project
 
 git clone ssh://hexinw@git.ubyon.com:29418/test-project
 
+# Rename a project
+ssh -p 29418 hexinw@git.ubyon.com rename-project cxg mars
+
 # Normal git push.
 git push origin HEAD:refs/heads/<branch>
 # Gerrit git push to a virtual namespace.

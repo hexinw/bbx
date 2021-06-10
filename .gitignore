@@ -1,2 +1,6 @@
 *.out
 .clang_complete
+ca.cert
+ca.key
+server.cert
+server.key

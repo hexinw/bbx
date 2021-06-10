@@ -1,0 +1,10 @@
+# Access kibana UI.
+# Use kubectl to setup port-forward to kibana service.
+# Do this from the ec2 instance that you will ssh to.
+kubectl port-forward -n elastic svc/kibana 5601:5601
+
+# Setup ssh port forwarding from your Mac
+ssh -fNT -4 -i ~/.ssh/core-aws.pem ubuntu@44.231.40.179 -L 5601:localhost:5601
+
+# Now you can access Kibana UI from browser on Mac
+http://localhost:5601

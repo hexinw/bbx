@@ -4,9 +4,15 @@ kubectl get pod <POD-NAME> -o jsonpath='{.status.containerStatuses[0].containerI
 ## Find PID from container ID
 ps -eo pid,ppid,stat,wchan:20,netns,comm,args:50,cgroup --cumulative -H | grep <containerID>
 
+# Check a container's listening ports from the host.
+sudo ln -sf /proc/<PID>/ns/net /var/run/netns/<containerID>
+sudo ip netns exec <containerID> ip link show
+sudo ip netns exec <containerID> netstat -an
+
 # Add an extra network interface
 sudo ip link add veth0 type veth peer name veth1
 sudo ip link set veth1 netns 2366523
 sudo nsenter -t 2366523 -n ip addr add 10.1.10.7/24 dev veth1
 sudo nsenter -t 2366523 -n ip link set dev veth1 up
+
 

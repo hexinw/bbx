@@ -7,3 +7,14 @@ mysql> CREATE USER 'keycloak'@'%' IDENTIFIED BY 'password';
 # Grant user privilege to use the database.
 mysql> GRANT ALL PRIVILEGES ON keycloak.* TO 'keycloak'@'%';
 mysql> flush privileges;
+
+# ssh port forward to keycloak admin UI.
+ssh -fNT -4 -i ~/.ssh/core-aws.pem ubuntu@35.81.121.126 -L 8080:10.96.22.43:8080
+
+# Verify keycloak discovery endpoint
+# The discovery endpoint is what the Kong OIDC plugin can hit in order to get
+# informaiton on where it can do authentication, token introspection, etc.
+kubectl exec -it keycloak-7d74c74948-8xk2q -- curl -s http://keycloak:8080/auth/realms/master/.well-known/openid-configuration | python3 -mjson.tool
+
+# Keycloak
+# admin/Ubyon4u2$
