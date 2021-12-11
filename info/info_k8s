@@ -15,4 +15,26 @@ sudo ip link set veth1 netns 2366523
 sudo nsenter -t 2366523 -n ip addr add 10.1.10.7/24 dev veth1
 sudo nsenter -t 2366523 -n ip link set dev veth1 up
 
+# Add a name to the k8s API Server Certificate
+# Pull the kubeadm configuration into a yaml file.
+kubectl -n kube-system get configmap kubeadm-config -o jsonpath='{.data.ClusterConfiguration}' > kubeadm.yaml
+# Add certSANs
+apiServer:
+  certSANs:
+  - "54.184.69.17"
+  extraArgs:
 
+# Move existing server key and certificate.
+sudo mv /etc/kubernetes/pki/apiserver.{crt,key} ~
+
+# Regenerate server certs.
+sudo kubeadm init phase certs apiserver --config kubeadm.yaml
+
+# Restart API server.
+docker kill `docker ps | grep kube-apiserver | grep -v pause | awk '{print $1}'`
+
+# Verify server certs.
+openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text
+
+# Update the kubeadm ConfigMap stored in the cluster.
+sudo kubeadm init phase upload-config kubeadm --config=kubeadm.yaml

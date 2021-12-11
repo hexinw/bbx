@@ -48,6 +48,13 @@ static_resources:
               dns_cache_config:
                 name: dynamic_forward_proxy_cache_config
                 dns_lookup_family: V4_ONLY
+                dns_resolution_config:
+                  resolvers:
+                  - socket_address:
+                      address: "8.8.8.8"
+                      port_value: 53
+                  dns_resolver_options:
+                    no_default_search_domain: true
           - name: envoy.filters.http.router
           upgrade_configs:
             - upgrade_type: CONNECT
@@ -92,6 +99,13 @@ static_resources:
               dns_cache_config:
                 name: dynamic_forward_proxy_cache_config
                 dns_lookup_family: V4_ONLY
+                dns_resolution_config:
+                  resolvers:
+                  - socket_address:
+                      address: "8.8.8.8"
+                      port_value: 53
+                  dns_resolver_options:
+                    no_default_search_domain: true
           - name: envoy.filters.http.router
           upgrade_configs:
             - upgrade_type: CONNECT
@@ -122,3 +136,10 @@ static_resources:
         dns_cache_config:
           name: dynamic_forward_proxy_cache_config
           dns_lookup_family: V4_ONLY
+          dns_resolution_config:
+            resolvers:
+            - socket_address:
+                address: "8.8.8.8"
+                port_value: 53
+            dns_resolver_options:
+              no_default_search_domain: true

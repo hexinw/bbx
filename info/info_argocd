@@ -1,0 +1,11 @@
+# Add an external cluster
+# Add core-data-infra-zion-admin kubeconfig to argocd cluster kubeconfig.
+
+# use argocd cluster config context.
+kubectl config use-context kubernetes-admin@kubernetes
+
+# Login to argocd via argocd CLI.
+argocd login $(kubectl get svc -n argocd -l app.kubernetes.io/name=argocd-server -o=jsonpath="{.items[0].spec.clusterIP}"):80
+
+# Add external cluster.
+argocd cluster add core-dev-integ --kubeconfig ~/argocd/kubeconfig/core-dev-integ

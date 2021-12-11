@@ -18,3 +18,8 @@ kubectl exec -it keycloak-7d74c74948-8xk2q -- curl -s http://keycloak:8080/auth/
 
 # Keycloak
 # admin/Ubyon4u2$
+
+# Setup https certificate into keycloak container
+# domain: idp.ubyon.io
+# Use jboss/keycloak docker image. Volume mount tls.crt nad tls.key to
+# /etc/x509/https

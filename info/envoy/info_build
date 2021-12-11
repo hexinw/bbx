@@ -1,0 +1,3 @@
+# Build and run from dev VM.
+bazel build //source/exe:envoy-static -c dbg
+sudo ./bazel-out/k8-dbg/bin/source/exe/envoy-static -c <envoy.yaml> -l debug

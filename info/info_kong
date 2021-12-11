@@ -1,18 +1,25 @@
+# Refer to this website for detail example walk through: https://www.jerney.io/secure-apis-kong-keycloak-1/
+#
 # Verify OIDC plugin is available on Kong.
-curl -s http://<kong-clusterip>:8001   | jq .plugins.available_on_server.oidc
+curl -s http://kong-control.kong.svc:8001  | jq .plugins.available_on_server.oidc
 
 # Create a mock service.
-curl -s -X POST http://10.97.134.120:8001/services -d name=mock-service -d url=http://mockbin.org/request | python3 -mjson.tool
+curl -s -X POST http://kong-control.kong.svc:8001/services -d name=mock-service -d url=http://mockbin.org/request | python3 -mjson.tool
 
-# Create a mock route.
-curl -s -X POST http://10.97.134.120:8001/routes -d service.id=e5b887a5-1339-4f3f-bc5e-17b076bfc10f -d paths[]=/mock  | python3 -mjson.tool
+# Create a mock route. Use the 'id' value from previous output as <service_id>
+curl -s -X POST http://kong-control.kong.svc:8001/routes -d service.id=<service_id> -d paths[]=/mock  | python3 -mjson.tool
+
+# Verify everything up correctly.
+curl -s http://kong-ingress.kong.svc:8000/mock
 
 http://35.81.121.126:30008/auth/realms/master/.well-known/openid-configuration
 
-# Configure the OIDC plugin on Kong
-kubectl exec -it keycloak-7d74c74948-8xk2q -- curl -s -X POST http://kong-control.kong:8001/plugins -d name=oidc -d config.client_id=kong -d config.client_secret=29786cf5-89a5-422e-ad75-3b93b89a046a -d config.discovery=http://keycloak.default.svc.cluster.local:8080/auth/realms/master/.well-known/openid-configuration | python3 -mjson.tool
+# Go to Keycloak admin console to setup 'kong' client.
 
-kubectl exec -it keycloak-7d74c74948-8xk2q -- curl -s -X POST http://kong-control.kong:8001/plugins -d name=oidc -d config.client_id=kong -d config.client_secret=29786cf5-89a5-422e-ad75-3b93b89a046a -d config.discovery=https://auth.ubyon.com/auth/realms/master/.well-known/openid-configuration | python3 -mjson.tool
+# Configure the OIDC plugin on Kong
+#kubectl exec -it keycloak-7d74c74948-8xk2q -- curl -s -X POST http://kong-control.kong.svc:8001/plugins -d name=oidc -d config.client_id=kong -d config.client_secret=f07816d5-e6cd-47b0-8c8b-cc56549b23a1 -d config.discovery=http://keycloak.default.svc.cluster.local:8080/auth/realms/master/.well-known/openid-configuration | python3 -mjson.tool
+
+kubectl exec -it keycloak-7d74c74948-8xk2q -- curl -s -X POST http://kong-control.kong:8001/plugins -d name=oidc -d config.client_id=kong -d config.client_secret=f07816d5-e6cd-47b0-8c8b-cc56549b23a1 -d config.discovery=https://auth.ubyon.com/auth/realms/master/.well-known/openid-configuration | python3 -mjson.tool
 
 # Setup ssh port forward to kong
 ssh -fNT -4 -i ~/.ssh/core-aws.pem ubuntu@35.81.121.126 -L 30080:localhost:30080

@@ -1,0 +1,18 @@
+# Install cert-manager on k8s
+kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+
+# Setup AWS Route53 IAM policies for Let's Encrypt handshake.
+https://prune998.medium.com/istio-0-8-0-envoy-cert-manager-lets-encrypt-for-tls-d26bee634541
+
+# Setup IAM secret for cert-manager to access Route53
+kubectl -n cert-manager create secret generic prod-route53-credentials-secret --from-literal=secret-access-key=<your secret key here>
+
+# Create ClusterIssuer
+kubectl create -f 20ubind-issuer.yaml
+
+# Create certificate. Cert-manager will perform the request using the ACME
+# dns01 API.
+kubectl create -f 25ubind-certificate.yaml
+
+# Verify domain certificate and key.
+kubectl get secret acme-cert-secret -o yaml
