@@ -1,0 +1,20 @@
+# Docker file to generate a ubuntu 22.04 based image plus a varieties of
+# tools/dependencies.
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /var/tmp
+RUN \
+  apt-get update -y && \
+  apt-get install -y build-essential autoconf automake \
+      libtool curl pkg-config make g++ unzip vim wget cmake git ccache \
+      libssl-dev net-tools iproute2 iputils-ping dnsutils python3-pip gdb \
+      protobuf-compiler-grpc protobuf-compiler
+
+RUN \
+  pip3 install pytest grpcio-tools grpcio python-dateutil \
+      protobuf gevent greenlet python-gflags werkzeug websocket \
+      websocket_client py-dateutil pyuwsgi netaddr \
+      flask Flask-INIConfig setuptools Cython \
+      requests cryptography
